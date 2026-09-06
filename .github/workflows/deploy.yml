@@ -35,7 +35,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Install AWS CDK
-        run: npm install -g aws-cdk@2.228.0
+        run: npm install -g aws-cdk
 
       - name: Install CDK dependencies
         working-directory: infrastructure
