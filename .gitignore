@@ -10,8 +10,7 @@ env/
 
 # CDK
 cdk.out/
-.cdk.staging/
-cdk.context.json
+.cdklocal/
 
 # IDE
 .vscode/
