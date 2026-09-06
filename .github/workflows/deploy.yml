@@ -1,1 +1,82 @@
+name: Deploy Flask to AWS
 
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # -------------------------------------------------------
+      # 1. Get repository
+      # -------------------------------------------------------
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -------------------------------------------------------
+      # 2. Install Python
+      # -------------------------------------------------------
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      # -------------------------------------------------------
+      # 3. Install Node.js
+      # -------------------------------------------------------
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # -------------------------------------------------------
+      # 4. Configure AWS using GitHub OIDC
+      # -------------------------------------------------------
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      # -------------------------------------------------------
+      # 5. Install AWS CDK CLI
+      # -------------------------------------------------------
+
+      - name: Install AWS CDK
+        run: npm install -g aws-cdk@2.228.0
+
+      # -------------------------------------------------------
+      # 6. Install Python dependencies for CDK
+      # -------------------------------------------------------
+
+      - name: Install CDK dependencies
+        working-directory: infrastructure
+        run: pip install -r requirements.txt
+
+      # -------------------------------------------------------
+      # 7. Bootstrap CDK
+      # -------------------------------------------------------
+
+      - name: Bootstrap CDK
+        working-directory: infrastructure
+        run: cdk bootstrap
+
+      # -------------------------------------------------------
+      # 8. Deploy
+      # -------------------------------------------------------
+
+      - name: Deploy infrastructure
+        working-directory: infrastructure
+        run: cdk deploy --require-approval never
