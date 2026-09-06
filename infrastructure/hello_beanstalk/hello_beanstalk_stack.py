@@ -103,7 +103,6 @@ class HelloBeanstalkStack(cdk.Stack):
             self,
             "HelloFlaskApplicationVersion",
             application_name=beanstalk_app.ref,
-            version_label=f"version-{git_sha}",
             source_bundle=eb.CfnApplicationVersion.SourceBundleProperty(
                 s3_bucket=application_bundle.s3_bucket_name,
                 s3_key=application_bundle.s3_object_key,
