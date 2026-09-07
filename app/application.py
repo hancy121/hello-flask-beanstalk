@@ -11,7 +11,7 @@ def hello():
             <title>Hello AWS</title>
         </head>
         <body>
-            <h1>Hello World!</h1>
+            <h1>Hello flask 2!</h1>
             <p>Flask is running on AWS Elastic Beanstalk.</p>
         </body>
     </html>
