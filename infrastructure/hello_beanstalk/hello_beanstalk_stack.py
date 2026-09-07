@@ -38,7 +38,7 @@ class HelloBeanstalkStack(cdk.Stack):
         beanstalk_app = eb.CfnApplication(
             self,
             "HelloFlaskApplication",
-            application_name="hello-flask",
+            application_name="hello-flask2",
         )
 
         # ---------------------------------------------------------
@@ -117,7 +117,7 @@ class HelloBeanstalkStack(cdk.Stack):
             self,
             "HelloFlaskEnvironment",
             application_name=beanstalk_app.ref,
-            environment_name="hello-flask-env",
+            environment_name="hello-flask-env2",
 
             solution_stack_name=(
                 "64bit Amazon Linux 2023 "
